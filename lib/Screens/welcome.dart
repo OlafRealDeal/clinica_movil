@@ -41,7 +41,7 @@ class WelcomePage extends StatelessWidget{
                       onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SplashPage(duration: 4, goToPage: LoginScreen()),
+                        MaterialPageRoute(builder: (context) => SplashPage(duration: 500, goToPage: LoginScreen()),
                       ),
                     );
                   },

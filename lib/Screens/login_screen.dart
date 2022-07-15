@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Services/auth_services.dart';
 import 'package:flutterapp/Services/globals.dart';
-import 'package:flutterapp/rounded_button.dart';
+import 'package:flutterapp/Services/shared_preferences.dart';
+import 'package:flutterapp/data/user.dart';
+import 'package:flutterapp/widgets/rounded_button.dart';
 import 'package:http/http.dart' as http;
 
 import 'home_screen.dart';
@@ -24,11 +26,18 @@ class _LoginScreenState extends State<LoginScreen> {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => const HomeScreen(),
-            ));
+
+        Navigator.pushNamed(context, 'patient.index', arguments: User(dataUser: {          
+          "id": responseMap["user"]["id"],
+          "name": responseMap["user"]["name"],
+          "ci": responseMap["user"]["ci"],
+          "address": responseMap["user"]["address"],
+          "phone": responseMap["user"]["phone"],
+          "email": responseMap["user"]["email"],
+          "fecha_nacimiento": responseMap["user"]["fecha_nacimiento"],
+        
+        }));
+        
       } else {
         errorSnackBar(context, responseMap.values.first);
       }

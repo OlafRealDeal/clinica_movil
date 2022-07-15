@@ -34,7 +34,54 @@ class AuthServices {
       headers: headers,
       body: body,
     );
-    print(response.body);
     return response;
+  }
+
+  static Future<List<dynamic>?> getCitas(idUser) async {
+    var url = Uri.parse(baseURL + "citas/$idUser");
+    http.Response response = await http.get(url);
+
+    if(response.statusCode == 200){
+      print('petición correcta');
+
+      final jsonData = jsonDecode(response.body);
+      List<dynamic> listDatas = jsonData;
+      return listDatas;
+    }else{
+      return null;
+    }
+  }
+
+  static Future<List<dynamic>?> getRecetas(idUser) async {
+    var url = Uri.parse(baseURL + "recetas/$idUser");
+    http.Response response = await http.get(url);
+
+    if(response.statusCode == 200){
+      print('petición correcta');
+
+      final jsonData = jsonDecode(response.body);
+      List<dynamic> listDatas = jsonData;
+      List<dynamic> newListRecetas = [];
+      for (var element in listDatas) {
+        newListRecetas += element;
+      }
+      return newListRecetas;
+    }else{
+      return null;
+    }
+  }
+
+  static Future<List<dynamic>?> getRecetasDeCita(idCita) async {
+    var url = Uri.parse(baseURL + "citas/recetas/$idCita");
+    http.Response response = await http.get(url);
+
+    if(response.statusCode == 200){
+      print('petición correcta');
+      final jsonData = jsonDecode(response.body);
+      List<dynamic> listDatas = jsonData;
+      return listDatas;
+    }else{
+      return null;
+    }
   }
 }
